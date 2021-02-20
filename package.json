@@ -11,10 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.4.0",
+    "axios": "^0.21.1",
     "discord.js": "discordjs/discord.js",
     "distube": "^2.8.8",
-    "ffmpeg-static": "^4.2.7",
-    "node-fetch": "^2.6.1",
-    "ytdl-core": "^4.5.0"
+    "ffmpeg-static": "^4.2.7"
   }
 }

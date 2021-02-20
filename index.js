@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const client = new Discord.Client({intents: Discord.Intents.ALL})
 const DisTube = require('distube');
 const config = require('./config.json');
+const axios = require('axios');
+
 const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 const activities_list = [
     "made by hodugwaja", 
@@ -21,6 +23,7 @@ client.on('ready', () => {
         const index = random(1, activities_list.length-1);
         client.user.setActivity(activities_list[index]);
     }, 10000); 
+    
 });
 
 client.on('guildMemberAdd', (member) => {
@@ -66,6 +69,48 @@ client.on("message", async (message) => {
         message.channel.send('재생목록\n' + queue.songs.map((song, id) =>`**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``).slice(0, 10).join("\n"));
     }
 
+    if(['한강', '한강수온'].includes(command)){
+        axios({
+            method : 'get',
+            url : 'https://api.hangang.msub.kr/',
+            responseType : 'stream '
+        }).then(function(response){
+            const hangangEmbed = new Discord.MessageEmbed()
+                .setTitle("한강수온")
+                .setDescription('현재 한강 수온입니다')
+                .addField(`기준 시간`, `${response.data.time}`, true)
+                .addField(`한강 수온`, `섭씨 ${response.data.temp}°C`, true)
+                .addField(`기준 위치`, `${response.data.station}역 기준`, true)
+                .setImage('https://cdn.pixabay.com/photo/2017/10/01/13/35/bridge-2805540_960_720.jpg')
+                .setFooter('https://api.hangang.msub.kr/')
+            const hangangFailEmbed = new Discord.MessageEmbed()
+                .setTitle("한강수온")
+                .setDescription(`한강 수온을 가져오기 실패했습니다`)
+                .setFooter('https://api.hangang.msub.kr/')
+            message.reply(response.data.status === "success" ? hangangEmbed : hangangFailEmbed);
+            
+        })
+    }
+    if(['코로나19', 'covid19', '우한패렴', '방주원', '코로롱코로롱', '우주원'].includes(command)){
+        axios({
+            method : 'get',
+            url : 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson',
+            responseType : 'stream'
+        }).then(function(response) {
+            console.log(response)
+            const COVID19Embed = new Discord.MessageEmbed()
+                .setTitle("코로나 19")
+        })
+    }
+    if(['KBO', '크보'].includes(command)){
+        axios({
+            method : 'post',
+            url : 'https://kbo-api.herokuapp.com?year=2018&month=7&day=27',
+            responseType : 'steam'
+        }).then(function(response){
+            console.log(response.data);
+        })
+    }
     
 });
 
@@ -105,16 +150,14 @@ distube.on("playList", (message, queue, playlist, song) => message.channel.send(
     .on("addList", (message, queue, playlist) => message.channel.send(
         `Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`
     ))
-    // DisTubeOptions.searchSongs = true
     .on("searchResult", (message, result) => {
         let i = 0;
         message.channel.send(`**Choose an option from below**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`);
     })
-    // DisTubeOptions.searchSongs = true
     .on("searchCancel", (message) => message.channel.send(`Searching canceled`))
     .on("error", (message, e) => {
         console.error(e)
-        message.channel.send("An error encountered: " + e);
+        message.channel.send("야생의 에러가 들이 탁쳤다: " + e);
     });
 
 client.login(config.token);
