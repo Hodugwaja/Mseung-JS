@@ -10,7 +10,9 @@ const activities_list = [
     "카운터사이드",
     "앰생봇 개발",
 ];
-
+const player = [
+    ''
+];
 function random(min, max){
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -40,6 +42,7 @@ client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.content.startsWith(config.prefix)) return;
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    const argsKBO = message.content.split(' ');
     const command = args.shift();
     if(['테스트'].includes(command)){
         message.reply("테스트 실행합니다");
@@ -103,12 +106,57 @@ client.on("message", async (message) => {
         })
     }
     if(['KBO', '크보'].includes(command)){
+        if(args[0] === undefined || args[1] === undefined || args[2] === undefined){
+            message.reply("형식에 맞지 않습니다");
+            return;
+        }
+        const KBOTeam = [' '];
+        const LG = ['LG 트윈즈', '잠실 야구장'];
+        const KT = ['KT 위즈', '수원 KT 위즈 파크'];
+        const Hanhwa = ['한화 이글스', '한화 생명 이글스 파크'];
+        const Lotte = ['롯데 자이언츠', '사직 야구장'];
+        const Nexen = ['넥센 히어로즈', '고척스카이돔']
+        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드'];
+        const Samsung = ['삼성 라이온즈', '삼성 라이온즈 파크'];
+        const Doosan = ['두산 베어스', '잠실야구장'];
+        const NC = ['NC 다이노스', '창원 NC 파크'];
+        const SK = ['SK 와이번즈', '인천 SK 행복 드림구장']
+        const Nanum = ['나눔팀', '아무구장']
+        const Dream = ['드림팀', '아무 구장']
+        const Kiwoom = ['키움 히어로즈', '고척 스카이돔'];
+        KBOTeam.push(Doosan, NC, Hanhwa, Lotte, Nexen, Samsung, KIA, LG, KT, SK, Nanum, Dream, Kiwoom);
         axios({
-            method : 'post',
-            url : 'https://kbo-api.herokuapp.com?year=2018&month=7&day=27',
+            method : 'get',
+            url : `https://kbo-api.herokuapp.com?year=${args[0]}&month=${args[1]}&day=${args[2]}`,
             responseType : 'steam'
+            /* 
+                1 -> 두산
+                2 -> NC
+                3 -> 한화
+                4 -> 키움
+                5 -> 롯데
+                6 -> 삼성
+                7 -> KIA
+                8 -> LG
+                9 -> KT 
+                10 -> SK
+
+            */
         }).then(function(response){
             console.log(response.data);
+            const KBOEmbed = new Discord.MessageEmbed()
+                .setTitle(`${args[0]}년 ${args[1]}월 ${args[2]}일 경기 결과`)
+                .setDescription(`금일 KBO 리그 경기 결과입니다`)
+                .setFooter('https://github.com/seeeturtle/kbo')
+            for(i = 0; i<response.data.length; i++){
+                if(response.data[i].canceled){
+                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}(우천취소)`, `${KBOTeam[response.data[i].away][0]} vs ${KBOTeam[response.data[i].home][0]}`)
+                }else{
+                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}`, `${response.data[i].score[0]}  ${KBOTeam[response.data[i].away][0]} vs ${KBOTeam[response.data[i].home][0]} ${response.data[i].score[1]}`)
+                }
+            }    
+            message.reply(KBOEmbed);
+            
         })
     }
     
