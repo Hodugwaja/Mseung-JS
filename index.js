@@ -9,6 +9,7 @@ const activities_list = [
     "made by hodugwaja", 
     "카운터사이드",
     "앰생봇 개발",
+    `${config.prefix}도움말을 통해 도움말 얻기`
 ];
 const player = [
     'https://file2.nocutnews.co.kr/newsroom/image/2020/05/07/20200507222219152034_0_825_593.jpg',
@@ -51,15 +52,37 @@ client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.content.startsWith(config.prefix)) return;
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
-    const argsKBO = message.content.split(' ');
     const command = args.shift();
     if(['테스트'].includes(command)){
-        message.reply("핑퐁!");
+        message.reply("테스트 반사");
     }
-
-    if (['재생', '음원찾기'].includes(command))
+    if(['초대', '초대코드'].includes(command)){
+        const inviteEmbed = new Discord.MessageEmbed()
+            .setTitle('초대 코드')
+            .setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=0`)
+        message.reply(inviteEmbed);
+    }
+    if(['도움', 'readme', '도움말', 'help'].includes(command)){
+        const readmeEmbed = new Discord.MessageEmbed()
+            .setTitle("해당 봇을 이용하기 위한 도움말입니다")
+            .setDescription("M생톤을 위해 만든 기능들(추후 TypeSript화 시킬 예정)")
+            .addField(`${config.prefix}(초대 or 초대코드)`, `봇을 초대할 수 있는 초대코드를 받을 수 있습니다`)
+            .addField(`${config.prefix}(재생 or 음원찾기) (링크 or 검색어)`, `링크 혹은 검색어를 통해 음악을 틀 수 있습니다(음성 채널 들어가야함)`)
+            .addField(`${config.prefix}(반복)`, `현재 재생 중인 음악을 반복 할 수 있습니다`)
+            .addField(`${config.prefix}(스킵 or 다음)`, `현재 재생중인 곡을 중지하고 재생목록에 있는 다음곡으로 넘어감`)     
+            .addField(`${config.prefix}(큐 or 목록 or 재생목록)`, `재생목록을 볼 수 있습니다`)
+            .addField(`${config.prefix}(나가 or 정지)`, `음악과 관련된 모든 것을 정지하고 음성 채널을 나갑니다`)
+            .addField(`${config.prefix}(한강수온 or 한강)`, `현재 한강수온을 볼 수 있습니다`)
+            .addField(`${config.prefix}KBO (연도) (월) (일)`, `해당 날짜의 KBO 경기 결과를 볼 수 있습니다`)
+            .addField(`${config.prefix}코로나19`, `코로나19 현황을 볼 수 있습니다`)
+            .setFooter('호두과자#2022', 'https://cdn.discordapp.com/avatars/811070880846446593/e0021d819dce387e4809a323c1cf0d30.webp?size=128')
+            .setImage(`${client.user.avatarURL()}`)
+        message.reply(readmeEmbed)
+    }
+    if (['재생', '음원찾기'].includes(command)){
         distube.play(message, args.join(" "));
-
+    }
+        
     if (["반복"].includes(command))
         distube.setRepeatMode(message, parseInt(args[0]));
 
@@ -129,19 +152,19 @@ client.on("message", async (message) => {
             return;
         }
         const KBOTeam = [' '];
-        const LG = ['LG 트윈즈', '잠실 야구장',];
-        const KT = ['KT 위즈', '수원 KT 위즈 파크'];
-        const Hanhwa = ['한화 이글스', '한화 생명 이글스 파크'];
-        const Lotte = ['롯데 자이언츠', '사직 야구장'];
-        const Nexen = ['넥센 히어로즈', '고척스카이돔']
-        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드', ];
-        const Samsung = ['삼성 라이온즈', '삼성 라이온즈 파크'];
-        const Doosan = ['두산 베어스', '잠실야구장'];
-        const NC = ['NC 다이노스', '창원 NC 파크'];
-        const SK = ['SK 와이번즈', '인천 SK 행복 드림구장']
-        const Nanum = ['나눔팀', '아무구장']
-        const Dream = ['드림팀', '아무 구장']
-        const Kiwoom = ['키움 히어로즈', '고척 스카이돔'];
+        const LG = ['LG 트윈즈', '잠실 야구장', '<:LG:812764433414750299>'];
+        const KT = ['KT 위즈', '수원 KT 위즈 파크', '<:KT:812764433414750299>'];
+        const Hanhwa = ['한화 이글스', '한화 생명 이글스 파크', '<:Hanhwa:812764433414750299>'];
+        const Lotte = ['롯데 자이언츠', '사직 야구장', '<:Lotte:812764433414750299>'];
+        const Nexen = ['넥센 히어로즈', '고척스카이돔', '<:Nexen:812765381369528381>'];
+        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드', '<:KIA:812764433414750299>'];
+        const Samsung = ['삼성 라이온즈', '삼성 라이온즈 파크', '<:SAMSUNG:812764433414750299>'];
+        const Doosan = ['두산 베어스', '잠실야구장', '<:Doosan:812764433414750299>'];
+        const NC = ['NC 다이노스', '창원 NC 파크', '<:NC:812764433414750299>'];
+        const SK = ['SK 와이번즈', '인천 SK 행복 드림구장', '<:SK:812764433414750299>'];
+        const Nanum = ['나눔팀', '아무구장', '<:KBO:812764433414750299>'];
+        const Dream = ['드림팀', '아무 구장', '<:KBO:812764433414750299>'];
+        const Kiwoom = ['키움 히어로즈', '고척 스카이돔', '<:Kiwoom:812762789781045318>'];
         KBOTeam.push(Doosan, NC, Hanhwa, Lotte, Nexen, Samsung, KIA, LG, KT, SK, Nanum, Dream, Kiwoom);
         axios({
             method : 'get',
@@ -171,7 +194,7 @@ client.on("message", async (message) => {
                 if(response.data[i].canceled){
                     KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}(우천취소)`, `${KBOTeam[response.data[i].away][0]} vs ${KBOTeam[response.data[i].home][0]}`)
                 }else{
-                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}`, `${response.data[i].score[0]}  ${KBOTeam[response.data[i].away][0]} vs ${KBOTeam[response.data[i].home][0]} ${response.data[i].score[1]}`)
+                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}`, `${response.data[i].score[0]}  ${KBOTeam[response.data[i].away][0]} vs  ${KBOTeam[response.data[i].home][0]} ${response.data[i].score[1]}`)
                 }
             }    
             message.reply(KBOEmbed);
