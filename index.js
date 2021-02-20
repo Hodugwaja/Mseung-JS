@@ -11,7 +11,16 @@ const activities_list = [
     "앰생봇 개발",
 ];
 const player = [
-    ''
+    'https://file2.nocutnews.co.kr/newsroom/image/2020/05/07/20200507222219152034_0_825_593.jpg',
+    'https://wizzap.ktwiz.co.kr/files/article/2020/11/16/20201116221933.f6e-e03fb023ce12.jpg',
+    'https://www.skwyverns.com:8443/Common/Attach/WyvernsPhoto/2020/10/17/3910be0e-79f8-4435-a862-0fd6964a9d9d.jpg',
+    'https://pds.joins.com/news/component/htmlphoto_mmdata/201908/29/af945680-b765-40aa-b180-7b2f8fbbf916.jpg',
+    'https://pds.joins.com/news/component/htmlphoto_mmdata/201905/18/227e75be-005f-4f57-984f-7eea5b3fc795.jpg',
+    'https://lh3.googleusercontent.com/proxy/iByP4ZNtwLmcexzhDqIEPhnH_949iPjiLperZU2VJ1JChsZ9JVti3ABfFghzImIROrRagIZRMDwps_5RhUIjoPQmi1kMS_junEcfityJFnHxmPUzIl3LCnjv32tTiMcYIg6qUNbzV8o-TrI7',
+    'http://ojsfile.ohmynews.com/STD_IMG_FILE/2020/0323/IE002619826_STD.jpg',
+    'https://newsimg.hankookilbo.com/cms/articlerelease/2020/08/05/b9fc93c8-9f34-4a92-8f24-b628d6f654e0.jpg',
+    'https://www.heroesbaseball.co.kr/files/bbs.5//2020/06/26/0d30ed75-a097-4c12-8c58-05c9fe8a87f7.jpg',
+    'https://pds.joins.com//news/component/htmlphoto_mmdata/201805/24/dbd84d4f-4210-4122-8267-027566e2437c.jpg'
 ];
 function random(min, max){
     min = Math.ceil(min);
@@ -45,7 +54,7 @@ client.on("message", async (message) => {
     const argsKBO = message.content.split(' ');
     const command = args.shift();
     if(['테스트'].includes(command)){
-        message.reply("테스트 실행합니다");
+        message.reply("핑퐁!");
     }
 
     if (['재생', '음원찾기'].includes(command))
@@ -94,15 +103,29 @@ client.on("message", async (message) => {
             
         })
     }
-    if(['코로나19', 'covid19', '우한패렴', '방주원', '코로롱코로롱', '우주원'].includes(command)){
-        axios({
-            method : 'get',
-            url : 'http://openapi.data.go.kr/openapi/service/rest/Covid19/getCovid19InfStateJson',
-            responseType : 'stream'
-        }).then(function(response) {
-            console.log(response)
-            const COVID19Embed = new Discord.MessageEmbed()
-                .setTitle("코로나 19")
+    if((['방주원'].includes(command) && message.author.id !== '812752099582148609')|| ['코로나19', 'covid19', '우한패렴', '코로롱코로롱', '우주원'].includes(command)){
+        axios.get('https://api.corona-19.kr/korea/?serviceKey=jdJyFz4etxkcXWrni3fu16S5TsHhBpCUw').then(function(response){
+            const covid19Embed = new Discord.MessageEmbed()
+                .setTitle('코로나19 현황')
+                .setDescription(response.data.updateTime)
+                .addField(`확진자`, `${response.data.TotalCase}명`,true)
+                .addField(`감염자`, `${response.data.NowCase}명`, true)
+                .addField(`격리중`, `${response.data.TotalCase}명`, true)
+                .addField(`확진자`, `${response.data.TotalCase}명`, true)
+                .addField(`완치자`, `${response.data.TotalRecovered}명`, true)
+                .addField(`완치율`, `${response.data.recoveredPercentage}%`,true)
+                .addField(`확진자`, `${response.data.TotalCase}명`, true)
+                .addField(`사망자`, `${response.data.TotalDeath}명`, true)
+                .addField(`사망률`, `${response.data.deathPercentage}%`, true)
+                .addField(`격리중`, `${response.data.checkingCounter}명`, true)
+                .addField(`검사자`, `${response.data.TotalChecking}명`, true)
+                .addField(`양성율`, `${100 - response.data.notcasePercentage}%`, true)
+                .addField(`확진자 증감추이`, `${response.data.TotalCaseBefore}`, true)
+                .addField(`금일 완치자`, `${response.data.TodayRecovered}명`, true)
+                .addField(`금일 사망자`, `${response.data.TodayDeath}명`, true)
+                .setImage('https://cdn.discordapp.com/attachments/811935682997780480/812759630320107610/H0bQMBd.png')
+                .setFooter('https://github.com/dhlife09/Corona-19-API')
+            message.reply(covid19Embed);
         })
     }
     if(['KBO', '크보'].includes(command)){
@@ -111,12 +134,12 @@ client.on("message", async (message) => {
             return;
         }
         const KBOTeam = [' '];
-        const LG = ['LG 트윈즈', '잠실 야구장'];
+        const LG = ['LG 트윈즈', '잠실 야구장',];
         const KT = ['KT 위즈', '수원 KT 위즈 파크'];
         const Hanhwa = ['한화 이글스', '한화 생명 이글스 파크'];
         const Lotte = ['롯데 자이언츠', '사직 야구장'];
         const Nexen = ['넥센 히어로즈', '고척스카이돔']
-        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드'];
+        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드', ];
         const Samsung = ['삼성 라이온즈', '삼성 라이온즈 파크'];
         const Doosan = ['두산 베어스', '잠실야구장'];
         const NC = ['NC 다이노스', '창원 NC 파크'];
@@ -147,6 +170,7 @@ client.on("message", async (message) => {
             const KBOEmbed = new Discord.MessageEmbed()
                 .setTitle(`${args[0]}년 ${args[1]}월 ${args[2]}일 경기 결과`)
                 .setDescription(`금일 KBO 리그 경기 결과입니다`)
+                .setImage(player[random(0, 9)])
                 .setFooter('https://github.com/seeeturtle/kbo')
             for(i = 0; i<response.data.length; i++){
                 if(response.data[i].canceled){
