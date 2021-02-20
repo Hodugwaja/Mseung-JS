@@ -64,19 +64,14 @@ client.on("message", async (message) => {
         distube.setRepeatMode(message, parseInt(args[0]));
 
     if (['나가', '정지'].includes(command)) {
-        if(message.author === song.user || message.author.role === message.member.roles.find(role => role.hasPermission('Administrator'))){
-            distube.stop(message);
-            message.reply("요청자 또는 관리자에 의해 음악을 정지했습니다");
-        }else{
-            message.reply("요청자 또는 관리자를 제외한 유저는 음악을 정지할수 없습니다")
-        }
-        
+        distube.stop(message);
+        message.reply("모든 음원을 종료했습니다");   
     }
 
     if (['스킵', '다음'].includes(command))
         distube.skip(message);
 
-    if (['큐', '목록'].includes(command)) {
+    if (['큐', '목록', '재생목록'].includes(command)) {
         let queue = distube.getQueue(message);
         message.channel.send('재생목록\n' + queue.songs.map((song, id) =>`**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``).slice(0, 10).join("\n"));
     }
@@ -214,20 +209,26 @@ distube.on("addSong", (message, queue, song) => {
 })
 
 distube.on("playList", (message, queue, playlist, song) =>{
-    message.reply
+    const playListEmbed = new Discord.MessageEmbed()
+        .setTitle(`${playlist.name}`)
+        .setDescription('재생목록 정보')
+        .addField(`등록된 음원 수`, `${playlist.song.length}`)
+        .addField(`${song.formattedDuration}`, ``)
+    message.reply(playListEmbed);
 })
-distube.on("playList", (message, queue, playlist, song) => message.channel.send(
-        `Play \`${playlist.name}\` playlist (${playlist.songs.length} songs).\nRequested by: ${song.user}\nNow playing \`${song.name}\` - \`${song.formattedDuration}\`\n${status(queue)}`
-    ))
-    .on("addList", (message, queue, playlist) => message.channel.send(
-        `Added \`${playlist.name}\` playlist (${playlist.songs.length} songs) to queue\n${status(queue)}`
-    ))
-    .on("searchResult", (message, result) => {
-        let i = 0;
-        message.channel.send(`**Choose an option from below**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*Enter anything else or wait 60 seconds to cancel*`);
-    })
-    .on("searchCancel", (message) => message.channel.send(`Searching canceled`))
-    .on("error", (message, e) => {
+
+distube.on("addList", (message, queue, playlist) =>{ 
+    message.reply(`(${playlist.songs.length}개의 음원들이) ${playlist.name}재생목록에 추가 완료\n${status(queue)}`)
+})
+
+distube.on("searchResult", (message, result) => {
+    let i = 0;
+    message.channel.send(`**해당 음원 검색 결과입니다**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*60초 뒤에 선택해주세요*`);
+})
+
+distube.on("searchCancel", (message) => message.channel.send(`검색이 취소되었습니다`))
+
+distube.on("error", (message, e) => {
         console.error(e)
         message.channel.send("야생의 에러가 들이 탁쳤다: " + e);
     });
