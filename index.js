@@ -7,7 +7,6 @@ const axios = require('axios');
 const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 const activities_list = [
     "made by hodugwaja", 
-    "카운터사이드",
     "앰생봇 개발",
     `${config.prefix}도움말을 통해 도움말 얻기`
 ];
@@ -54,7 +53,8 @@ client.on("message", async (message) => {
     const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
     const command = args.shift();
     if(['테스트'].includes(command)){
-        message.reply("테스트 반사");
+        const emoji = message.guild.emojis.cache.find(emoji => emoji.name === "KIA");
+        message.reply(`:${emoji.name}:${emoji.id}`);
     }
     if(['초대', '초대코드'].includes(command)){
         const inviteEmbed = new Discord.MessageEmbed()
@@ -146,24 +146,27 @@ client.on("message", async (message) => {
             message.reply(covid19Embed);
         })
     }
+    if(['티켓', 'ticket'].includes(command)){
+        message.channel.add
+    }
     if(['KBO', '크보'].includes(command)){
         if(args[0] === undefined || args[1] === undefined || args[2] === undefined){
             message.reply("형식에 맞지 않습니다");
             return;
         }
         const KBOTeam = [' '];
-        const LG = ['LG 트윈즈', '잠실 야구장', '<:LG:812764433414750299>'];
-        const KT = ['KT 위즈', '수원 KT 위즈 파크', '<:KT:812764433414750299>'];
-        const Hanhwa = ['한화 이글스', '한화 생명 이글스 파크', '<:Hanhwa:812764433414750299>'];
-        const Lotte = ['롯데 자이언츠', '사직 야구장', '<:Lotte:812764433414750299>'];
-        const Nexen = ['넥센 히어로즈', '고척스카이돔', '<:Nexen:812765381369528381>'];
-        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드', '<:KIA:812764433414750299>'];
-        const Samsung = ['삼성 라이온즈', '삼성 라이온즈 파크', '<:SAMSUNG:812764433414750299>'];
-        const Doosan = ['두산 베어스', '잠실야구장', '<:Doosan:812764433414750299>'];
-        const NC = ['NC 다이노스', '창원 NC 파크', '<:NC:812764433414750299>'];
-        const SK = ['SK 와이번즈', '인천 SK 행복 드림구장', '<:SK:812764433414750299>'];
-        const Nanum = ['나눔팀', '아무구장', '<:KBO:812764433414750299>'];
-        const Dream = ['드림팀', '아무 구장', '<:KBO:812764433414750299>'];
+        const LG = ['LG 트윈즈', '잠실 야구장', '<:LG:812762788291936287>'];
+        const KT = ['KT 위즈', '수원 KT 위즈 파크', '<:KT:812762789293850675>'];
+        const Hanhwa = ['한화 이글스', '한화 생명 이글스 파크', '<:Hanhwa:812762790389219359>'];
+        const Lotte = ['롯데 자이언츠', '사직 야구장', '<:LOTTE:812762789436325919>'];
+        const Nexen = ['넥센 히어로즈', '고척스카이돔', '<:Nexen:812765361731797062>'];
+        const KIA = ['기아 타이거즈', '광주 기아 챔피언스 필드', '<:KIA:812762789545508884>'];
+        const Samsung = ['삼성 라이온즈', '삼성 라이온즈 파크', '<:SAMSUNG:812762794016768100>'];
+        const Doosan = ['두산 베어스', '잠실야구장', '<:Doosan:812762796508184597>'];
+        const NC = ['NC 다이노스', '창원 NC 파크', '<:NC:812762789226610730>'];
+        const SK = ['SK 와이번즈', '인천 SK 행복 드림구장', '<:SK:812762789642108948>'];
+        const Nanum = ['나눔팀', '아무구장', '<:KBO:812764329514500169>'];
+        const Dream = ['드림팀', '아무 구장', '<:KBO:812764329514500169>'];
         const Kiwoom = ['키움 히어로즈', '고척 스카이돔', '<:Kiwoom:812762789781045318>'];
         KBOTeam.push(Doosan, NC, Hanhwa, Lotte, Nexen, Samsung, KIA, LG, KT, SK, Nanum, Dream, Kiwoom);
         axios({
@@ -192,9 +195,9 @@ client.on("message", async (message) => {
                 .setFooter('https://github.com/seeeturtle/kbo')
             for(i = 0; i<response.data.length; i++){
                 if(response.data[i].canceled){
-                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}(우천취소)`, `${KBOTeam[response.data[i].away][0]} vs ${KBOTeam[response.data[i].home][0]}`)
+                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}(우천취소)`, `${KBOTeam[response.data[i].away][0]} ${KBOTeam[response.data[i].away][2]} vs ${KBOTeam[response.data[i].home][2]} ${KBOTeam[response.data[i].home][0]}`)
                 }else{
-                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}`, `${response.data[i].score[0]}  ${KBOTeam[response.data[i].away][0]} vs  ${KBOTeam[response.data[i].home][0]} ${response.data[i].score[1]}`)
+                    KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}`, `${response.data[i].score[0]}  ${KBOTeam[response.data[i].away][0]} ${KBOTeam[response.data[i].away][2]} vs ${KBOTeam[response.data[i].home][2]} ${KBOTeam[response.data[i].home][0]} ${response.data[i].score[1]}`)
                 }
             }    
             message.reply(KBOEmbed);
