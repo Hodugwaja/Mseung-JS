@@ -23,7 +23,29 @@ module.exports = {
         ];
 
         if(args[0] === undefined || args[1] === undefined || args[2] === undefined){
-            message.reply("형식에 맞지 않습니다");
+            const today = new Date();
+            axios({
+                method : 'get',
+                url : `https://kbo-api.herokuapp.com?year=${today.getFullYear()}&month=${today.getUTCMonth()+1}&day=${today.getUTCDate()}`,
+                responseType : 'steam'
+            }).catch(function(error){
+                message.reply("에러 발생")
+            }).then(function(response){
+                console.log(response.data);
+                const KBOEmbed = new Discord.MessageEmbed()
+                    .setTitle(`${today.getFullYear()}년 ${today.getUTCMonth()+1}월 ${today.getUTCDate()}일 경기 결과`)
+                    .setDescription(`금일 KBO 리그 경기 결과입니다`)
+                    .setImage(player[random(0, 9)])
+                    .setFooter('https://github.com/seeeturtle/kbo')
+                for(i = 0; i<response.data.length; i++){
+                    if(response.data[i].canceled){
+                        KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}(우천취소)`, `${KBOTeam[response.data[i].away][0]} ${KBOTeam[response.data[i].away][2]} vs ${KBOTeam[response.data[i].home][2]} ${KBOTeam[response.data[i].home][0]}`)
+                    }else{
+                        KBOEmbed.addField(`${KBOTeam[response.data[i].home][1]}`, `${response.data[i].score[0]}  ${KBOTeam[response.data[i].away][0]} ${KBOTeam[response.data[i].away][2]} vs ${KBOTeam[response.data[i].home][2]} ${KBOTeam[response.data[i].home][0]} ${response.data[i].score[1]}`)
+                    }
+                }    
+                message.reply(KBOEmbed);
+            })
             return;
         }
         const KBOTeam = [' '];

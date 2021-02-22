@@ -75,7 +75,9 @@ client.on("message", async (message) => {
     if((['방주원'].includes(command) && message.author.id !== '812752099582148609')|| ['코로나19', 'covid19', '우한패렴', '코로롱코로롱', '우주원'].includes(command)){
         client.commands.get('covid19').execute(message, args);
     }
-
+    if(['티켓'].includes(command)){
+        client.commands.get('ticket').execute(message, args);
+    }
     if (['재생', '음원찾기'].includes(command)){
         distube.play(message, args.join(" "));
     }   
