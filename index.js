@@ -8,10 +8,11 @@ const axios = require('axios');
 
 const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 const activities_list = [
-    "made by hodugwaja", 
+    "문의는 호두과자#2022 에게", 
     "카운터사이드",
     "앰생봇 개발",
-    `${config.prefix}도움말을 통해 도움말 얻기`
+    `${config.prefix}도움말을 통해 도움말 얻기`,
+    `사용할 Open API 추천 받습니다`
 ];
 
 function random(min, max){
@@ -30,21 +31,12 @@ for (const file of commandFiles) {
 client.on('ready', () => {
     console.log(`${client.user.tag}'s system online`);
     setInterval(() => {
-        const index = random(1, activities_list.length-1);
+        const index = random(0, activities_list.length-1);
         client.user.setActivity(activities_list[index]);
     }, 10000); 
     
 });
 
-client.on('guildMemberAdd', (member) => {
-    if(member.guild.channels.cache.find(channel => channel.topic === "#입장")){
-        const welcomeEmbed = new Discord.MessageEmbed()
-            .setTitle("야생의 유저가 들어왔다!")
-            .setDescription(`들어온 유저 : ${member}`)
-            .setTimestamp()
-        message.channel.send(welcomeEmbed);
-    }
-})
 
 client.on("message", async (message) => {
 
@@ -54,7 +46,7 @@ client.on("message", async (message) => {
     const command = args.shift();
     
     if(['테스트'].includes(command)){
-        const emoji = message.guild.emojis.cache.find(emoji => emoji.name === "KIA");
+        const emoji = message.guild.emojis.cache.find(emoji => emoji.name === "cute");
         message.reply(`:${emoji.name}:${emoji.id}`);
     }
     if(['초대', '초대코드'].includes(command)){
@@ -63,8 +55,11 @@ client.on("message", async (message) => {
             .setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=0`)
         message.reply(inviteEmbed);
     }
+    if(['파랑이'].includes(command)){
+        client.commands.get('cutePiko').execute(message, args);
+    }
     if(['도움', 'readme', '도움말', 'help'].includes(command)){
-        client.commands.get('KBO').execute(message, args);
+        client.commands.get('readme').execute(message, args);
     }
     if(['KBO', '크보'].includes(command)){
         client.commands.get('KBO').execute(message, args);

@@ -1,3 +1,6 @@
+const Discord = require('discord.js');
+const client = new Discord.Client({intents: Discord.Intents.ALL})
+const axios = require('axios');
 module.exports = {
     name : 'covid19',
     execute(message, args){
@@ -20,7 +23,7 @@ module.exports = {
                 .addField(`확진자 증감추이`, `${response.data.TotalCaseBefore}`, true)
                 .addField(`금일 완치자`, `${response.data.TodayRecovered}명`, true)
                 .addField(`금일 사망자`, `${response.data.TodayDeath}명`, true)
-                .setImage('https://cdn.discordapp.com/attachments/811935682997780480/812759630320107610/H0bQMBd.png')
+                .setImage('https://media.discordapp.net/attachments/812329721538543706/813746830508556298/A5XLByT6gM6Cpjyd6sSLuV2t7rZeE_pCgqa4nRSgNfI8qsV6aS8CJsRK3giFClAGagb2d5-fWNxXZ6WeHJ5W5MpYt-KhMLCvZez9.png')
                 .setFooter('https://github.com/dhlife09/Corona-19-API')
             message.reply(covid19Embed);
         })

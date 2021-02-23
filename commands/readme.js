@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({intents: Discord.Intents.ALL})
+const config = require('../config.json');
 module.exports = {
     name : 'readme',
     execute(message, args){
@@ -16,7 +17,6 @@ module.exports = {
             .addField(`${config.prefix}KBO (연도) (월) (일)`, `해당 날짜의 KBO 경기 결과를 볼 수 있습니다`)
             .addField(`${config.prefix}코로나19`, `코로나19 현황을 볼 수 있습니다`)
             .setFooter('호두과자#2022', 'https://cdn.discordapp.com/avatars/811070880846446593/e0021d819dce387e4809a323c1cf0d30.webp?size=128')
-            .setImage(`${client.user.avatarURL()}`)
         message.reply(readmeEmbed)
     }
 }
