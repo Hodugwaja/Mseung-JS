@@ -2,7 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const client = new Discord.Client({intents: Discord.Intents.ALL})
 const DisTube = require('distube');
-const config = require('./config.json');
+//const config = require('../config.json');
 const axios = require('axios');
 
 
@@ -11,7 +11,7 @@ const activities_list = [
     "문의는 호두과자#2022 에게", 
     "카운터사이드",
     "앰생봇 개발",
-    `${config.prefix}도움말을 통해 도움말 얻기`,
+    `${process.env.prefix}도움말을 통해 도움말 얻기`,
     `사용할 Open API 추천 받습니다`
 ];
 
@@ -41,8 +41,8 @@ client.on('ready', () => {
 client.on("message", async (message) => {
 
     if (message.author.bot) return;
-    if (!message.content.startsWith(config.prefix)) return;
-    const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+    if (!message.content.startsWith(process.env.prefix)) return;
+    const args = message.content.slice(process.env.prefix.length).trim().split(/ +/g);
     const command = args.shift();
     
     if(['테스트'].includes(command)){
@@ -148,4 +148,4 @@ distube.on("error", (message, e) => {
         message.channel.send("야생의 에러가 들이 탁쳤다: " + e);
     });
 
-client.login(config.token);
+client.login(process.env.TOKEN);
