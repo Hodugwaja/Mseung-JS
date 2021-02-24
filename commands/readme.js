@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client({intents: Discord.Intents.ALL})
-const config = require('../config.json');
+////const config = require('../config.json');
 module.exports = {
     name : 'readme',
     execute(message, args){
