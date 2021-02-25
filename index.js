@@ -68,7 +68,7 @@ client.on("message", async (message) => {
     if(['한강', '한강수온'].includes(command)){
         client.commands.get('Hanriver').execute(message, args);
     }
-    if((['방주원'].includes(command) && message.author.id !== '812752099582148609')|| ['코로나19', 'covid19', '우한패렴', '코로롱코로롱', '우주원'].includes(command)){
+    if((['방주원'].includes(command) && message.author.id !== '812752099582148609')|| ['코로나19', 'covid19', '우한패렴', '코로롱코로롱', '우주원', '쵹쵹이'].includes(command)){
         client.commands.get('covid19').execute(message, args);
     }
     if(['티켓'].includes(command)){
@@ -101,7 +101,7 @@ const status = (queue) => {
         .addField(`음향`, `${queue.volume}`)
         .addField(`필터`, `${queue.filter || "off"}`)
         .addField(`반복 유무`, `${queue.repeatMode ? queue.repeatMode == 2 ? "전체" : "현재 노래" : "없음"}`)
-        .addField(`다음 노래 자동 재생`, `${queue.autoPlay ? "자동 재생 켜짐": "자동재생 꺼짐"}`)
+        .addField(`다음 노래 자동 재생`, `${queue.autoPlay ? "자동 재생 켜짐": "자동재생 꺼짐"}`) 
     message.reply(statusEmbed);
 }
 
