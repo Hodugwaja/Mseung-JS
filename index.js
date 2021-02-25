@@ -12,7 +12,8 @@ const activities_list = [
     "카운터사이드",
     "앰생봇 개발",
     `${process.env.prefix}도움말을 통해 도움말 얻기`,
-    `사용할 Open API 추천 받습니다`
+    `사용할 Open API 추천 받습니다`,
+    `카운터사이드 당장 시작해!`
 ];
 
 function random(min, max){
@@ -73,7 +74,7 @@ client.on("message", async (message) => {
     if(['티켓'].includes(command)){
         client.commands.get('ticket').execute(message, args);
     }
-    if (['재생', '음원찾기'].includes(command)){
+    if (['재생', '음원찾기', '추가'].includes(command)){
         distube.play(message, args.join(" "));
     }   
     if (["반복"].includes(command))
@@ -89,11 +90,8 @@ client.on("message", async (message) => {
 
     if (['큐', '목록', '재생목록'].includes(command)) {
         let queue = distube.getQueue(message);
-        message.channel.send('재생목록\n' + queue.songs.map((song, id) =>`**${id + 1}**. ${song.name} - \`${song.formattedDuration}\``).slice(0, 10).join("\n"));
+        message.channel.send('재생목록\n' + queue.songs.map((song, id) =>`**${id + 1}**. ${song.name} - \`${song.formattedDuration}\` - ${song.user}` ).join("\n"));
     }
-
-    
-    
 });
 
 const status = (queue) => {
@@ -112,7 +110,7 @@ distube.on("playSong", (message, queue, song) => {
         .setTitle("음악 재생")
         .addField(`재생중인 음악`, `${song.name}`)
         .addField(`요청자`, `${song.user}`)
-    message.reply(playSongEmbed);
+    message.channel.send(playSongEmbed);
 })
 
 distube.on("addSong", (message, queue, song) => {
@@ -138,7 +136,7 @@ distube.on("addList", (message, queue, playlist) =>{
 
 distube.on("searchResult", (message, result) => {
     let i = 0;
-    message.channel.send(`**해당 음원 검색 결과입니다**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*60초 뒤에 선택해주세요*`);
+    message.channel.send(`**해당 음원 검색 결과입니다**\n${result.map(song => `**${++i}**. ${song.name} - \`${song.formattedDuration}\``).join("\n")}\n*60초 내에 선택해주세요*`);
 })
 
 distube.on("searchCancel", (message) => message.channel.send(`검색이 취소되었습니다`))
