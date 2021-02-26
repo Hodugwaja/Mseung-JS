@@ -92,6 +92,9 @@ client.on("message", async (message) => {
         let queue = distube.getQueue(message);
         message.channel.send('재생목록\n' + queue.songs.map((song, id) =>`**${id + 1}**. ${song.name} - \`${song.formattedDuration}\` - ${song.user}` ).join("\n"));
     }
+    if(['쵹쵹이'].includes(command)){
+        message.reply("쵹쵹하게 만들어 주지 - hexatium#0427");
+    }
 });
 
 const status = (queue) => {
