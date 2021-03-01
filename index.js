@@ -95,6 +95,9 @@ client.on("message", async (message) => {
     if(['쵹쵹이'].includes(command)){
         message.reply("쵹쵹하게 만들어 주지 - hexatium#0427");
     }
+    if(['맛젤'].includes(command)){
+        message.reply("맛젤이는 세젤귀 비상식량이다!");
+    }
 });
 
 const status = (queue) => {
@@ -145,8 +148,9 @@ distube.on("searchResult", (message, result) => {
 distube.on("searchCancel", (message) => message.channel.send(`검색이 취소되었습니다`))
 
 distube.on("error", (message, e) => {
+
         console.error(e)
-        message.channel.send("야생의 에러가 들이 탁쳤다: " + e);
+        message.channel.send("야생의 에러가 들이 탁쳤다 \n" + ```${e}```);
     });
 
 client.login(process.env.TOKEN);
