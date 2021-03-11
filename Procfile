@@ -1,2 +1,2 @@
-worker: node youbin.js
-worker: node sieyeong.js
+sieyeong: node youbin.js
+youbin: node sieyeong.js
