@@ -10,8 +10,8 @@ const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true }
 const activities_list = [
     "문의는 호두과자#2022 에게", 
     "카운터사이드",
-    "앰생봇 개발",
-    `${process.env.prefix}도움말을 통해 도움말 얻기`,
+    "퇴근 준비",
+    `${process.env.prefixs}도움말을 통해 도움말 얻기`,
     `사용할 Open API 추천 받습니다`,
     `카운터사이드 당장 시작해!`
 ];
@@ -56,23 +56,8 @@ client.on("message", async (message) => {
             .setURL(`https://discord.com/oauth2/authorize?client_id=${client.user.id}&scope=bot&permissions=0`)
         message.reply(inviteEmbed);
     }
-    if(['파랑이'].includes(command)){
-        client.commands.get('cutePiko').execute(message, args);
-    }
     if(['도움', 'readme', '도움말', 'help'].includes(command)){
-        client.commands.get('readme').execute(message, args);
-    }
-    if(['KBO', '크보'].includes(command)){
-        client.commands.get('KBO').execute(message, args);
-    }
-    if(['한강', '한강수온'].includes(command)){
-        client.commands.get('Hanriver').execute(message, args);
-    }
-    if((['방주원'].includes(command) && message.author.id !== '812752099582148609')|| ['코로나19', 'covid19', '우한패렴', '코로롱코로롱', '우주원', '쵹쵹이'].includes(command)){
-        client.commands.get('covid19').execute(message, args);
-    }
-    if(['티켓'].includes(command)){
-        client.commands.get('ticket').execute(message, args);
+        client.commands.get('readme-Sieyeong').execute(message, args);
     }
     if (['재생', '음원찾기', '추가'].includes(command)){
         distube.play(message, args.join(" "));
@@ -92,11 +77,8 @@ client.on("message", async (message) => {
         let queue = distube.getQueue(message);
         message.channel.send('재생목록\n' + queue.songs.map((song, id) =>`**${id + 1}**. ${song.name} - \`${song.formattedDuration}\` - ${song.user}` ).join("\n"));
     }
-    if(['쵹쵹이'].includes(command)){
-        message.reply("쵹쵹하게 만들어 주지 - hexatium#0427");
-    }
-    if(['맛젤'].includes(command)){
-        message.reply("맛젤이는 세젤귀 비상식량이다!");
+    if(['유저정보'].includes(command)){
+        
     }
 });
 
@@ -153,4 +135,4 @@ distube.on("error", (message, e) => {
         message.channel.send("야생의 에러가 들이 탁쳤다 \n" + ```${e}```);
     });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKENS);
