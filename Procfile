@@ -1,2 +1,2 @@
-sieyeong: node youbin.js
-youbin: node sieyeong.js
+youbin: node youbin.js
+sieyeong: node sieyeong.js
