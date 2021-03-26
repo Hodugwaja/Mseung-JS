@@ -42,8 +42,8 @@ client.on('ready', () => {
 client.on("message", async (message) => {
 
     if (message.author.bot) return;
-    if (!message.content.startsWith(process.env.prefix)) return;
-    const args = message.content.slice(process.env.prefix.length).trim().split(/ +/g);
+    if (!message.content.startsWith(process.env.prefixs)) return;
+    const args = message.content.slice(process.env.prefixs.length).trim().split(/ +/g);
     const command = args.shift();
     
     if(['테스트'].includes(command)){
