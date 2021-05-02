@@ -8,7 +8,7 @@ const axios = require('axios');
 
 const distube = new DisTube(client, { searchSongs: true, emitNewSongOnly: true });
 const activities_list = [
-    "문의는 호두과자#2022 에게", 
+    "문의는 호두과자#0355 에게", 
     "카운터사이드",
     "앰생봇 개발",
     `${process.env.prefix}도움말을 통해 도움말 얻기`,
@@ -77,9 +77,10 @@ client.on("message", async (message) => {
     if (['재생', '음원찾기', '추가'].includes(command)){
         distube.play(message, args.join(" "));
     }   
-    if (["반복"].includes(command))
+    if (["반복"].includes(command)){
         distube.setRepeatMode(message, parseInt(args[0]));
-
+        message.reply("음원을 반복 합니다");
+    }
     if (['나가', '정지'].includes(command)) {
         distube.stop(message);
         message.reply("모든 음원을 종료했습니다");   
