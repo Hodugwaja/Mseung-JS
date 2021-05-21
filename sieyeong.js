@@ -58,13 +58,14 @@ client.on("message", async (message) => {
     }
     if(['도움', 'readme', '도움말', 'help'].includes(command)){
         client.commands.get('readme-Sieyeong').execute(message, args);
-    }
+    } 
     if (['재생', '음원찾기', '추가'].includes(command)){
         distube.play(message, args.join(" "));
     }   
-    if (["반복"].includes(command))
+    if (["반복"].includes(command)){
         distube.setRepeatMode(message, parseInt(args[0]));
-
+        message.reply("음원을 반복 합니다");
+    }
     if (['나가', '정지'].includes(command)) {
         distube.stop(message);
         message.reply("모든 음원을 종료했습니다");   
