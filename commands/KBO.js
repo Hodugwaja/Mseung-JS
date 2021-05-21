@@ -62,7 +62,8 @@ module.exports = {
         const Nanum = ['나눔팀', '아무구장', '<:KBO:812764329514500169>'];
         const Dream = ['드림팀', '아무 구장', '<:KBO:812764329514500169>'];
         const Kiwoom = ['키움 히어로즈', '고척 스카이돔', '<:Kiwoom:812762789781045318>'];
-        KBOTeam.push(Doosan, NC, Hanhwa, Lotte, Nexen, Samsung, KIA, LG, KT, SK, Nanum, Dream, Kiwoom);
+        const SSG = ['SSG랜더스', '인천SSG랜더스필드', '<:SSG:812762789781045318>'];
+        KBOTeam.push(Doosan, NC, Hanhwa, Lotte, Nexen, Samsung, KIA, LG, KT, SK, Nanum, Dream, Kiwoom, SSG);
         axios({
             method : 'get',
             url : `https://kbo-api.herokuapp.com?year=${args[0]}&month=${args[1]}&day=${args[2]}`,

@@ -83,6 +83,7 @@ client.on("message", async (message) => {
     }
 });
 
+
 const status = (queue) => {
     const statusEmbed = new Discord.MessageEmbed()
         .setTitle(`현황판`)
